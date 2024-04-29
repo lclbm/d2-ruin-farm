@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "d2-ruin-farm"
+version = "0.1.0"
+description = ""
+authors = ["lclbm <614867321@qq.com>"]
+readme = "README.md"
+packages = [{include = "d2_ruin_farm"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+loguru = "^0.7.2"
+pydirectinput = "^1.0.4"
+opencv-python = "^4.9.0.80"
+pillow = "^10.3.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
