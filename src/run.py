@@ -109,7 +109,7 @@ if __name__ == "__main__":
                     success_count += 1
                     continuous_fail_count = 0
                     need_refresh_checkpoint = True
-                    logger.info("已检测到玩家的血条，本轮结算成功")
+                    logger.success("已检测到玩家的血条，本轮结算成功")
 
                     time.sleep(2)
                     start_next_round()
