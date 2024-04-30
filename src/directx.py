@@ -13,6 +13,9 @@ from pydirectinput import (
 )
 from loguru import logger
 
+from size import get_resize
+from config import config
+
 
 pydirectinput.PAUSE = 0
 
@@ -48,17 +51,17 @@ def open_map_and_switch_difficulty():
     time.sleep(1)
 
     # 点击战争领主的废墟
-    moveTo(2360)
+    moveTo(get_resize(2360))
     time.sleep(0.3)
     leftClick()
 
     # 点开难度选择
     time.sleep(1.5)
-    move_to_and_left_click(1960, 1110)
+    move_to_and_left_click(*get_resize(1960, 1110))
 
     # 选择大师难度
     time.sleep(1.5)
-    move_to_and_left_click(455, 460)
+    move_to_and_left_click(*get_resize(455, 460))
 
 
 def start_next_round():
@@ -66,14 +69,14 @@ def start_next_round():
 
     # 点击开始
     time.sleep(2)
-    move_to_and_left_click(2180, 1210)
+    move_to_and_left_click(*get_resize(2180, 1210))
 
 
 def refresh_checkpoint():
     open_map_and_switch_difficulty()
 
     # F进度
-    moveTo(1805, 1115)
+    moveTo(*get_resize(1805, 1115))
     time.sleep(1)
     press_and_hold_key("f", 4)
 
@@ -91,7 +94,7 @@ def kick_boss_by_indebted_kindess():
     time.sleep(2)
 
     # 开启boss
-    move(-40, -55, relative=True)
+    move(*config.开boss鼠标偏移, relative=True)
     time.sleep(0.5)
     leftClick()
     time.sleep(0.2)
@@ -103,14 +106,14 @@ def kick_boss_by_indebted_kindess():
     time.sleep(1)
 
     # 移动到预设的位置
-    press_and_hold_key("a", 0.5)
-    press_and_hold_key("w", 1.83)
+    press_and_hold_key("a", config.隐身后往左走时间)
+    press_and_hold_key("w", config.隐身后往前走时间)
 
     # 射击黄血小怪
     mouseDown(button=RIGHT)
     time.sleep(0.3)
-    move(184, 95, relative=True)
-    time.sleep(5.805)
+    move(*config.射击黄血鼠标偏移, relative=True)
+    time.sleep(config.等待黄血刷新时间)
     leftClick()
     mouseUp(button=RIGHT)
 
@@ -121,12 +124,12 @@ def kick_boss_by_indebted_kindess():
 
 
 def hide_indebted_kindess():
-    move(-820, 0, relative=True)
+    move(*config.躲藏第一段位移镜头偏移, relative=True)
     keyDown("w")
     keyDown("shiftleft")
-    time.sleep(1.6)
-    move(200, 0, relative=True)
-    time.sleep(2.4)
+    time.sleep(config.躲藏第一段位移时间)
+    move(*config.躲藏第二段位移镜头偏移, relative=True)
+    time.sleep(config.躲藏第二段位移时间)
 
     keyUp("shiftleft")
     keyUp("w")

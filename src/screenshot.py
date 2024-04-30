@@ -1,40 +1,12 @@
 import cv2
 import numpy as np
-from PIL import Image, ImageGrab
+from PIL import ImageGrab, Image
 
-MONITOR_WIDTH, MONITOR_HEIGHT = ImageGrab.grab().size
-
-if MONITOR_WIDTH == 1920 and MONITOR_HEIGHT == 1080:
-    ...
-
-
-elif MONITOR_WIDTH == 2560 and MONITOR_HEIGHT == 1440:
-    X_START_POSITION = (252, 1233)
-    X_WIDTH, X_HEIGHT = (82, 85)
-
-    HP_BAR_POSITION = (994, 134)
-    HP_BAR_WIDTH, HP_BAR_HEIGHT = (100, 10)
-
-    BOSS_HP_BAR_POSITION = (1250, 1295)
-    BOSS_HP_BAR_WIDTH, BOSS_HP_BAR_HEIGHT = (100, 10)
-else:
-    raise Exception("Unsupported monitor resolution")
-
-
-X_BBOX = (
-    *X_START_POSITION,
-    X_START_POSITION[0] + X_WIDTH,
-    X_START_POSITION[1] + X_HEIGHT,
-)
-HP_BAR_BBOX = (
-    *HP_BAR_POSITION,
-    HP_BAR_POSITION[0] + HP_BAR_WIDTH,
-    HP_BAR_POSITION[1] + HP_BAR_HEIGHT,
-)
-BOSS_HP_BAR_BBOX = (
-    *BOSS_HP_BAR_POSITION,
-    BOSS_HP_BAR_POSITION[0] + BOSS_HP_BAR_WIDTH,
-    BOSS_HP_BAR_POSITION[1] + BOSS_HP_BAR_HEIGHT,
+from size import (
+    MONITOR_WIDTH,
+    X_BBOX,
+    HP_BAR_BBOX,
+    BOSS_HP_BAR_BBOX,
 )
 
 
