@@ -49,7 +49,7 @@ NORMAL_HP_COLOR_RANGE = (
 FINISH_HP_COLOR_RANGE = (np.array([0, 190, 190][::-1]), np.array([0, 200, 200][::-1]))
 BOSS_HP_COLOR_RANGE = (np.array([150, 90, 10][::-1]), np.array([240, 180, 80][::-1]))
 X_TEMPLATE_IMAGE_CV = conver_image_to_open_cv(
-    Image.open(f"../asset/x_{MONITOR_WIDTH}.png")
+    Image.open(f"./asset/x_{MONITOR_WIDTH}.png")
 )
 
 

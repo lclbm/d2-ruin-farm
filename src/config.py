@@ -23,6 +23,6 @@ class Config:
 
 
 config = Config(
-    **tomllib.loads(Path(f"../config_{MONITOR_WIDTH}.toml").read_text("utf-8"))
+    **tomllib.loads(Path(f"./config_{MONITOR_WIDTH}.toml").read_text("utf-8"))
 )
 logger.info(config)

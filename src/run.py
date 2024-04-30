@@ -15,7 +15,7 @@ from directx import (
 )
 
 
-logger.add("../log.log", level="INFO")
+logger.add("./log.log")
 
 
 X_SIMILARITY_CHECK_INTERVAL = 4
