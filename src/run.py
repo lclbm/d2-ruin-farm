@@ -22,7 +22,7 @@ X_SIMILARITY_CHECK_INTERVAL = 4
 BOSS_HP_BAR_CHECK_INTERVAL = 0.5
 
 
-if __name__ == "__main__":
+def run():
     start_count = 0
     finish_count = 0
     success_count = 0
@@ -122,3 +122,13 @@ if __name__ == "__main__":
                     break
 
             time.sleep(BOSS_HP_BAR_CHECK_INTERVAL)
+
+
+if __name__ == "__main__":
+    try:
+        run()
+    except Exception as e:
+        import sys
+
+        logger.exception(e)
+        sys.exit(1)
