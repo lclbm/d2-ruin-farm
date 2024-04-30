@@ -7,11 +7,12 @@ readme = "README.md"
 packages = [{include = "d2_ruin_farm"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.11, <3.13"
 loguru = "^0.7.2"
 pydirectinput = "^1.0.4"
 opencv-python = "^4.9.0.80"
 pillow = "^10.3.0"
+pyinstaller = "^6.6.0"
 
 
 [build-system]
