@@ -10,7 +10,7 @@ from size import (
 )
 
 
-def log_image(func: callable):
+def image_log(func: callable):
     from loguru import logger
     from functools import wraps
     from datetime import datetime
@@ -22,7 +22,7 @@ def log_image(func: callable):
         if base_settings.debug:
             time_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
             file_name = f"{func.__name__}_{time_str}.png"
-            
+
             logger.debug(f"保存图片: {file_name}")
             image.save(f"./debug/{file_name}")
         return image
@@ -30,17 +30,38 @@ def log_image(func: callable):
     return inner
 
 
-@log_image
+def timer_log(func: callable):
+    from loguru import logger
+    from functools import wraps
+
+    @wraps(func)
+    def inner(*args, **kwargs):
+        import time
+
+        start_time = time.monotonic()
+        result = func(*args, **kwargs)
+
+        logger.debug(f"{func.__name__} 耗时: {time.monotonic() - start_time:.3f}s")
+
+        return result
+
+    return inner
+
+
+@image_log
+@timer_log
 def get_x_image():
     return ImageGrab.grab(bbox=X_BBOX)
 
 
-@log_image
+@image_log
+@timer_log
 def get_hp_bar_image():
     return ImageGrab.grab(bbox=HP_BAR_BBOX)
 
 
-@log_image
+@image_log
+@timer_log
 def get_boss_hp_bar_image():
     return ImageGrab.grab(bbox=BOSS_HP_BAR_BBOX)
 
@@ -76,22 +97,26 @@ X_TEMPLATE_IMAGE_CV = conver_image_to_open_cv(
 )
 
 
+@timer_log
 def get_x_similarity():
     return get_template_similarity(get_x_image(), X_TEMPLATE_IMAGE_CV)
 
 
+@timer_log
 def get_finish_hp_bar_mask_ratio():
     return get_mask_ratio(
         conver_image_to_open_cv(get_hp_bar_image()), *FINISH_HP_COLOR_RANGE
     )
 
 
+@timer_log
 def get_normal_hp_bar_mask_ratio():
     return get_mask_ratio(
         conver_image_to_open_cv(get_hp_bar_image()), *NORMAL_HP_COLOR_RANGE
     )
 
 
+@timer_log
 def get_boss_hp_bar_mask_ratio():
     return get_mask_ratio(
         conver_image_to_open_cv(get_boss_hp_bar_image()), *BOSS_HP_COLOR_RANGE
