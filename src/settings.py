@@ -40,7 +40,9 @@ def close_debug_mode():
     settings["base"]["debug"] = False
     SETTINGS_PATH.write_text(
         re.sub(
-            r"\[base\]\ndebug = .+", "[base]\ndebug = false", SETTINGS_PATH.read_text("utf-8")
+            r"\[base\]\ndebug = .+",
+            "[base]\ndebug = false",
+            SETTINGS_PATH.read_text("utf-8"),
         ),
         "utf-8",
     )
