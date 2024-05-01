@@ -1,22 +1,7 @@
 import time
 from loguru import logger
-from pydirectinput import press
-from screenshot import (
-    get_x_similarity,
-    get_boss_hp_bar_mask_ratio,
-    get_finish_hp_bar_mask_ratio,
-    get_normal_hp_bar_mask_ratio,
-)
-from directx import (
-    kick_boss_by_indebted_kindess,
-    start_next_round,
-    refresh_checkpoint,
-    hide_indebted_kindess,
-)
-from settings import base_settings, close_debug_mode
 
-
-logger.add("./log.log")
+logger.add("./logs/d2-ruin-farm_{time}.log", level="INFO")
 
 
 X_SIMILARITY_CHECK_INTERVAL = 4
@@ -24,6 +9,21 @@ BOSS_HP_BAR_CHECK_INTERVAL = 0.5
 
 
 def run():
+    from pydirectinput import press
+    from screenshot import (
+        get_x_similarity,
+        get_boss_hp_bar_mask_ratio,
+        get_finish_hp_bar_mask_ratio,
+        get_normal_hp_bar_mask_ratio,
+    )
+    from directx import (
+        kick_boss_by_indebted_kindess,
+        start_next_round,
+        refresh_checkpoint,
+        hide_indebted_kindess,
+    )
+    from settings import base_settings
+
     start_count = 0
     finish_count = 0
     success_count = 0
@@ -136,6 +136,8 @@ if __name__ == "__main__":
         logger.exception(e)
         sys.exit(1)
     finally:
+        from settings import base_settings, close_debug_mode
+
         if base_settings.debug:
             close_debug_mode()
             logger.info("已关闭调试模式")
