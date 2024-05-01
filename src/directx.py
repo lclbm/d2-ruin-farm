@@ -14,7 +14,7 @@ from pydirectinput import (
 from loguru import logger
 
 from size import get_resize
-from config import config
+from settings import monitor_settings, base_settings
 
 
 pydirectinput.PAUSE = 0
@@ -94,7 +94,7 @@ def kick_boss_by_indebted_kindess():
     time.sleep(2)
 
     # 开启boss
-    move(*config.开boss鼠标偏移, relative=True)
+    move(*monitor_settings.开boss鼠标偏移, relative=True)
     time.sleep(0.5)
     leftClick()
     time.sleep(0.2)
@@ -102,36 +102,36 @@ def kick_boss_by_indebted_kindess():
     # 跳x隐身
     press("space")
     time.sleep(0.2)
-    press("x")
+    press(base_settings.跳隐身按键)
     time.sleep(1)
 
     # 移动到预设的位置
-    press_and_hold_key("a", config.隐身后往左走时间)
-    press_and_hold_key("w", config.隐身后往前走时间)
+    press_and_hold_key("a", monitor_settings.隐身后往左走时间)
+    press_and_hold_key("w", monitor_settings.隐身后往前走时间)
 
     # 射击黄血小怪
     mouseDown(button=RIGHT)
     time.sleep(0.3)
-    move(*config.射击黄血鼠标偏移, relative=True)
-    time.sleep(config.等待黄血刷新时间)
+    move(*monitor_settings.射击黄血鼠标偏移, relative=True)
+    time.sleep(monitor_settings.等待黄血刷新时间)
     leftClick()
     mouseUp(button=RIGHT)
 
     # 终结小怪
-    keyDown("g")
+    keyDown(base_settings.终结技按键)
     run(1.7)
-    keyUp("g")
+    keyUp(base_settings.终结技按键)
 
 
 def hide_indebted_kindess():
-    move(*config.躲藏第一段位移镜头偏移, relative=True)
+    move(*monitor_settings.躲藏第一段位移镜头偏移, relative=True)
     keyDown("w")
     keyDown("shiftleft")
-    time.sleep(config.躲藏第一段位移时间)
-    move(*config.躲藏第二段位移镜头偏移, relative=True)
-    time.sleep(config.躲藏第二段位移时间)
+    time.sleep(monitor_settings.躲藏第一段位移时间)
+    move(*monitor_settings.躲藏第二段位移镜头偏移, relative=True)
+    time.sleep(monitor_settings.躲藏第二段位移时间)
 
     keyUp("shiftleft")
     keyUp("w")
     time.sleep(0.5)
-    press("down")
+    press(base_settings.埋头表情按键)

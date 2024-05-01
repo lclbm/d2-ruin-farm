@@ -13,6 +13,7 @@ from directx import (
     refresh_checkpoint,
     hide_indebted_kindess,
 )
+from settings import base_settings, close_debug_mode
 
 
 logger.add("./log.log")
@@ -68,9 +69,9 @@ def run():
             continuous_fail_count += 1
             logger.info("未在玩家血条上检测到感应护盾，准备团灭重试")
 
-            press("v")
+            press(base_settings.职业技能按键)
             time.sleep(1.5)
-            press("c")
+            press(base_settings.未充能近战按键)
             time.sleep(10)
 
             continue
@@ -89,7 +90,7 @@ def run():
                 continuous_fail_count += 1
                 logger.info("等待boss血条消失超时，准备团灭重试")
 
-                press("c")
+                press(base_settings.未充能近战按键)
                 time.sleep(10)
 
                 break
@@ -127,8 +128,14 @@ def run():
 if __name__ == "__main__":
     try:
         run()
+    except KeyboardInterrupt:
+        ...
     except Exception as e:
         import sys
 
         logger.exception(e)
         sys.exit(1)
+    finally:
+        if base_settings.debug:
+            close_debug_mode()
+            logger.info("已关闭调试模式")
