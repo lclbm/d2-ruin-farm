@@ -42,7 +42,6 @@ def run():
     while True:
         while True:
             x_similarity = get_x_similarity()
-            logger.debug(f"X技能模板匹配相似度: {x_similarity}")
             if x_similarity > 0.9:
                 logger.info("检测到X技能准备就绪")
                 break
@@ -69,7 +68,6 @@ def run():
         time.sleep(0.1)
 
         hp_bar_mask_ratio = get_finish_hp_bar_mask_ratio()
-        logger.debug(f"玩家蓝盾血条识别率: {hp_bar_mask_ratio}")
 
         if not hp_bar_mask_ratio >= 0.8:
             continuous_fail_count += 1
@@ -102,14 +100,12 @@ def run():
                 break
 
             boss_hp_bar_mask_ratio = get_boss_hp_bar_mask_ratio()
-            logger.debug(f"boss血条识别率: {boss_hp_bar_mask_ratio}")
 
             # 如果boss血条消失，进行玩家血条的检测
             if boss_hp_bar_mask_ratio <= 0.1:
                 logger.info("boss血条已消失")
 
                 normal_hp_bar_mask_ratio = get_normal_hp_bar_mask_ratio()
-                logger.debug(f"玩家血条识别率: {normal_hp_bar_mask_ratio}")
 
                 # 如果再检测到玩家血条，说明正常结算
                 if normal_hp_bar_mask_ratio >= 0.8:

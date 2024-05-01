@@ -1,5 +1,8 @@
 import cv2
 import numpy as np
+from functools import wraps
+
+from loguru import logger
 from PIL import ImageGrab, Image
 
 from size import (
@@ -11,8 +14,6 @@ from size import (
 
 
 def image_log(func: callable):
-    from loguru import logger
-    from functools import wraps
     from datetime import datetime
     from settings import base_settings
 
@@ -23,7 +24,7 @@ def image_log(func: callable):
             time_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
             file_name = f"{func.__name__}_{time_str}.png"
 
-            logger.debug(f"保存图片: {file_name}")
+            logger.debug(f"[{func.__name__}] 保存图片: {file_name}")
             image.save(f"./debug/{file_name}")
         return image
 
@@ -31,9 +32,6 @@ def image_log(func: callable):
 
 
 def timer_log(func: callable):
-    from loguru import logger
-    from functools import wraps
-
     @wraps(func)
     def inner(*args, **kwargs):
         import time
@@ -41,8 +39,21 @@ def timer_log(func: callable):
         start_time = time.monotonic()
         result = func(*args, **kwargs)
 
-        logger.debug(f"{func.__name__} 耗时: {time.monotonic() - start_time:.3f}s")
+        logger.debug(f"[{func.__name__}] 耗时: {time.monotonic() - start_time:.3f}s")
 
+        return result
+
+    return inner
+
+
+def result_log(func: callable):
+    from loguru import logger
+    from functools import wraps
+
+    @wraps(func)
+    def inner(*args, **kwargs):
+        result = func(*args, **kwargs)
+        logger.debug(f"[{func.__name__}] 结果: {result:.3f}")
         return result
 
     return inner
@@ -97,11 +108,13 @@ X_TEMPLATE_IMAGE_CV = conver_image_to_open_cv(
 )
 
 
+@result_log
 @timer_log
 def get_x_similarity():
     return get_template_similarity(get_x_image(), X_TEMPLATE_IMAGE_CV)
 
 
+@result_log
 @timer_log
 def get_finish_hp_bar_mask_ratio():
     return get_mask_ratio(
@@ -109,6 +122,7 @@ def get_finish_hp_bar_mask_ratio():
     )
 
 
+@result_log
 @timer_log
 def get_normal_hp_bar_mask_ratio():
     return get_mask_ratio(
@@ -116,6 +130,7 @@ def get_normal_hp_bar_mask_ratio():
     )
 
 
+@result_log
 @timer_log
 def get_boss_hp_bar_mask_ratio():
     return get_mask_ratio(
