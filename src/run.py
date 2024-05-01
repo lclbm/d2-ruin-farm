@@ -2,7 +2,7 @@ import time
 from pathlib import Path
 from loguru import logger
 
-logger.add("./logs/d2-ruin-farm_{time}.log", level="INFO")
+logger.add("./logs/d2-ruin-farm_{time}.log")
 
 
 X_SIMILARITY_CHECK_INTERVAL = 4
