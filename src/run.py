@@ -1,4 +1,5 @@
 import time
+from pathlib import Path
 from loguru import logger
 
 logger.add("./logs/d2-ruin-farm_{time}.log", level="INFO")
@@ -31,6 +32,11 @@ def run():
     need_refresh_checkpoint = False
 
     logger.info("程序启动")
+
+    if base_settings.debug:
+        logger.info("已开启调试模式")
+        Path("./debug").mkdir(exist_ok=True)
+
     time.sleep(2)
 
     while True:
@@ -135,9 +141,3 @@ if __name__ == "__main__":
 
         logger.exception(e)
         sys.exit(1)
-    finally:
-        from settings import base_settings, close_debug_mode
-
-        if base_settings.debug:
-            close_debug_mode()
-            logger.info("已关闭调试模式")

@@ -10,14 +10,37 @@ from size import (
 )
 
 
+def log_image(func: callable):
+    from loguru import logger
+    from functools import wraps
+    from datetime import datetime
+    from settings import base_settings
+
+    @wraps(func)
+    def inner():
+        image = func()
+        if base_settings.debug:
+            time_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
+            file_name = f"{func.__name__}_{time_str}.png"
+            
+            logger.debug(f"保存图片: {file_name}")
+            image.save(f"./debug/{file_name}")
+        return image
+
+    return inner
+
+
+@log_image
 def get_x_image():
     return ImageGrab.grab(bbox=X_BBOX)
 
 
+@log_image
 def get_hp_bar_image():
     return ImageGrab.grab(bbox=HP_BAR_BBOX)
 
 
+@log_image
 def get_boss_hp_bar_image():
     return ImageGrab.grab(bbox=BOSS_HP_BAR_BBOX)
 

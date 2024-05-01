@@ -35,19 +35,6 @@ class Config:
     躲藏第二段位移时间: float
 
 
-def close_debug_mode():
-    settings = tomllib.loads(SETTINGS_PATH.read_text("utf-8"))
-    settings["base"]["debug"] = False
-    SETTINGS_PATH.write_text(
-        re.sub(
-            r"\[base\]\ndebug = .+",
-            "[base]\ndebug = false",
-            SETTINGS_PATH.read_text("utf-8"),
-        ),
-        "utf-8",
-    )
-
-
 settings = tomllib.loads(SETTINGS_PATH.read_text("utf-8"))
 base_settings = BaseSettings(**settings.pop("base"))
 monitor_settings = Config(**settings.pop(f"{MONITOR_HEIGHT}p"))
