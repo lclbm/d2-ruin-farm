@@ -11,7 +11,9 @@ SETTINGS_PATH = Path(f"./settings.toml")
 
 @dataclasses.dataclass
 class BaseSettings:
+    log_level: str
     debug: bool
+
     职业技能按键: str
     未充能近战按键: str
     跳隐身按键: str
@@ -38,6 +40,3 @@ class Config:
 settings = tomllib.loads(SETTINGS_PATH.read_text("utf-8"))
 base_settings = BaseSettings(**settings.pop("base"))
 monitor_settings = Config(**settings.pop(f"{MONITOR_HEIGHT}p"))
-
-logger.info(base_settings)
-logger.info(monitor_settings)

@@ -2,9 +2,6 @@ import time
 from pathlib import Path
 from loguru import logger
 
-logger.add("./logs/d2-ruin-farm_{time}.log")
-
-
 X_SIMILARITY_CHECK_INTERVAL = 4
 BOSS_HP_BAR_CHECK_INTERVAL = 0.5
 
@@ -23,7 +20,11 @@ def run():
         refresh_checkpoint,
         hide_indebted_kindess,
     )
-    from settings import base_settings
+    from settings import base_settings, monitor_settings
+
+    logger.add("./logs/d2-ruin-farm_{time}.log", level=base_settings.log_level)
+    logger.info(base_settings)
+    logger.info(monitor_settings)
 
     start_count = 0
     finish_count = 0

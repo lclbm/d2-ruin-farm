@@ -1,4 +1,5 @@
 [base]
+log_level = "DEBUG"
 debug = false
 "职业技能按键" = "v"
 "未充能近战按键" = "c"
