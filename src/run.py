@@ -134,7 +134,6 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         ...
     except Exception as e:
-        import sys
-
-        logger.exception(e)
-        sys.exit(1)
+        logger.critical(e)
+        logger.info("程序已停止，请检查日志文件")
+        _ = input("按回车键退出...")
