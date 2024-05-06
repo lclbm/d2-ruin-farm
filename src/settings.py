@@ -39,6 +39,8 @@ class Config:
     终结后等待时间: float
     未终结职业技能隐身后回近战时间: float
 
+    x技能识别阈值: float
+
 
 settings = tomllib.loads(SETTINGS_PATH.read_text("utf-8"))
 base_settings = BaseSettings(**settings.pop("base"))

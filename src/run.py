@@ -1,6 +1,7 @@
 import time
 from pathlib import Path
 from loguru import logger
+from settings import monitor_settings, base_settings
 
 X_SIMILARITY_CHECK_INTERVAL = 4
 BOSS_HP_BAR_CHECK_INTERVAL = 0.5
@@ -43,7 +44,7 @@ def run():
     while True:
         while True:
             x_similarity = get_x_similarity()
-            if x_similarity > 0.8:
+            if x_similarity > monitor_settings.x技能识别阈值:
                 logger.info("检测到X技能准备就绪")
                 break
             time.sleep(X_SIMILARITY_CHECK_INTERVAL)
