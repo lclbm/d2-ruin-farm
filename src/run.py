@@ -43,7 +43,7 @@ def run():
     while True:
         while True:
             x_similarity = get_x_similarity()
-            if x_similarity > monitor_settings.x技能识别阈值:
+            if x_similarity > base_settings.x技能识别阈值:
                 logger.info("检测到X技能准备就绪")
                 break
             time.sleep(X_SIMILARITY_CHECK_INTERVAL)
