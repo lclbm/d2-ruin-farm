@@ -1,6 +1,7 @@
 import time
 from pathlib import Path
 from loguru import logger
+from settings import monitor_settings, base_settings
 
 X_SIMILARITY_CHECK_INTERVAL = 4
 BOSS_HP_BAR_CHECK_INTERVAL = 0.5
@@ -43,7 +44,7 @@ def run():
     while True:
         while True:
             x_similarity = get_x_similarity()
-            if x_similarity > 0.9:
+            if x_similarity > monitor_settings.x技能识别阈值:
                 logger.info("检测到X技能准备就绪")
                 break
             time.sleep(X_SIMILARITY_CHECK_INTERVAL)
@@ -75,7 +76,7 @@ def run():
             logger.info("未在玩家血条上检测到感应护盾，准备团灭重试")
 
             press(base_settings.职业技能按键)
-            time.sleep(1.5)
+            time.sleep(monitor_settings.未终结职业技能隐身后回近战时间)
             press(base_settings.未充能近战按键)
             time.sleep(10)
 
@@ -91,7 +92,7 @@ def run():
         hide_indebted_kindess()
 
         while True:
-            if time.monotonic() - start_time >= 25:
+            if time.monotonic() - start_time >= monitor_settings.终结失败后等待时间:
                 continuous_fail_count += 1
                 logger.info("等待boss血条消失超时，准备团灭重试")
 
@@ -115,7 +116,7 @@ def run():
                     need_refresh_checkpoint = True
                     logger.success("已检测到玩家的血条，本轮结算成功")
 
-                    time.sleep(2)
+                    time.sleep(monitor_settings.终结成功后等待时间)
                     start_next_round()
 
                     break
