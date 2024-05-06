@@ -36,6 +36,9 @@ class Config:
     躲藏第二段位移镜头偏移: tuple[int]
     躲藏第二段位移时间: float
 
+    终结后等待时间: float
+    未终结职业技能隐身后回近战时间: float
+
 
 settings = tomllib.loads(SETTINGS_PATH.read_text("utf-8"))
 base_settings = BaseSettings(**settings.pop("base"))

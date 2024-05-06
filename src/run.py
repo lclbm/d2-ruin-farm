@@ -43,7 +43,7 @@ def run():
     while True:
         while True:
             x_similarity = get_x_similarity()
-            if x_similarity > 0.9:
+            if x_similarity > 0.8:
                 logger.info("检测到X技能准备就绪")
                 break
             time.sleep(X_SIMILARITY_CHECK_INTERVAL)
@@ -75,7 +75,7 @@ def run():
             logger.info("未在玩家血条上检测到感应护盾，准备团灭重试")
 
             press(base_settings.职业技能按键)
-            time.sleep(1.5)
+            time.sleep(monitor_settings.未终结职业技能隐身后回近战时间)
             press(base_settings.未充能近战按键)
             time.sleep(10)
 
@@ -91,7 +91,7 @@ def run():
         hide_indebted_kindess()
 
         while True:
-            if time.monotonic() - start_time >= 25:
+            if time.monotonic() - start_time >= monitor_settings.终结后等待时间:
                 continuous_fail_count += 1
                 logger.info("等待boss血条消失超时，准备团灭重试")
 
@@ -134,7 +134,6 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         ...
     except Exception as e:
-        import sys
-
-        logger.exception(e)
-        sys.exit(1)
+        logger.critical(e)
+        logger.info("程序已停止，请检查日志文件")
+        _ = input("按回车键退出...")
