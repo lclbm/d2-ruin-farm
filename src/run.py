@@ -1,7 +1,6 @@
 import time
 from pathlib import Path
 from loguru import logger
-from settings import monitor_settings, base_settings
 
 X_SIMILARITY_CHECK_INTERVAL = 4
 BOSS_HP_BAR_CHECK_INTERVAL = 0.5
