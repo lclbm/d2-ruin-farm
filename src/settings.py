@@ -1,8 +1,6 @@
-import re
 import tomllib
 import dataclasses
 from pathlib import Path
-from loguru import logger
 
 from size import MONITOR_HEIGHT
 
