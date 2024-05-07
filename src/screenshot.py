@@ -1,3 +1,4 @@
+import time
 import cv2
 import numpy as np
 from functools import wraps
@@ -5,12 +6,8 @@ from functools import wraps
 from loguru import logger
 from PIL import ImageGrab, Image
 
-from size import (
-    MONITOR_WIDTH,
-    X_BBOX,
-    HP_BAR_BBOX,
-    BOSS_HP_BAR_BBOX,
-)
+from size import MONITOR_WIDTH
+from settings import image_settings
 
 
 def image_log(func: callable):
@@ -62,19 +59,19 @@ def result_log(func: callable):
 @image_log
 @timer_log
 def get_x_image():
-    return ImageGrab.grab(bbox=X_BBOX)
+    return ImageGrab.grab(bbox=image_settings.monitor_settings.X技能坐标边界)
 
 
 @image_log
 @timer_log
 def get_hp_bar_image():
-    return ImageGrab.grab(bbox=HP_BAR_BBOX)
+    return ImageGrab.grab(bbox=image_settings.monitor_settings.玩家血条坐标边界)
 
 
 @image_log
 @timer_log
 def get_boss_hp_bar_image():
-    return ImageGrab.grab(bbox=BOSS_HP_BAR_BBOX)
+    return ImageGrab.grab(bbox=image_settings.monitor_settings.BOSS血条坐标边界)
 
 
 def conver_image_to_open_cv(image: Image.Image):
@@ -98,11 +95,17 @@ def get_mask_ratio(image: np.ndarray, lower_bound: np.ndarray, upper_bound: np.n
 
 
 NORMAL_HP_COLOR_RANGE = (
-    np.array([200, 200, 200][::-1]),
-    np.array([255, 255, 255][::-1]),
+    np.array(image_settings.玩家血条颜色范围[0][::-1]),
+    np.array(image_settings.玩家血条颜色范围[1][::-1]),
 )
-FINISH_HP_COLOR_RANGE = (np.array([0, 190, 190][::-1]), np.array([0, 200, 200][::-1]))
-BOSS_HP_COLOR_RANGE = (np.array([150, 90, 10][::-1]), np.array([240, 180, 80][::-1]))
+FINISH_HP_COLOR_RANGE = (
+    np.array(image_settings.玩家终结技血条颜色范围[0][::-1]),
+    np.array(image_settings.玩家终结技血条颜色范围[1][::-1]),
+)
+BOSS_HP_COLOR_RANGE = (
+    np.array(image_settings.BOSS血条颜色范围[0][::-1]),
+    np.array(image_settings.BOSS血条颜色范围[1][::-1]),
+)
 try:
     X_TEMPLATE_IMAGE_CV = conver_image_to_open_cv(
         Image.open(f"./asset/x_{MONITOR_WIDTH}.png")
@@ -139,3 +142,21 @@ def get_boss_hp_bar_mask_ratio():
     return get_mask_ratio(
         conver_image_to_open_cv(get_boss_hp_bar_image()), *BOSS_HP_COLOR_RANGE
     )
+
+
+def check_boss_hp_bar(times: int, interval: float, func: callable):
+    for i in range(times):
+        if not func(get_boss_hp_bar_mask_ratio()):
+            return False
+        if i != times - 1:
+            time.sleep(interval)
+    return True
+
+
+def check_normal_hp_bar(times: int, interval: float, func: callable):
+    for i in range(times):
+        if not func(get_normal_hp_bar_mask_ratio()):
+            return False
+        if i != times - 1:
+            time.sleep(interval)
+    return True
